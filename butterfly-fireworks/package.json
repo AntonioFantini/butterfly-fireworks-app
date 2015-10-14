@@ -1,0 +1,17 @@
+{
+    "name": "butterfly-fireworks",
+    "main": "server.js",
+    "author": "Antonio Fantini <antonio.fantini88@gmail.com>",
+    "dependencies": {
+        "body-parser" : "~1.14.1",
+		"express" : "~4.13.3",
+		"express-session": "~1.11.3",
+		"jsonwebtoken" : "~5.4.0",
+		"mysql" : "~2.9.0",
+		"passport" : "~0.3.0",
+		"passport-strategy" : "~1.0.0",
+		"passport-local" : "~1.0.0",
+		"passport-strategy" : "~1.0.0",
+		"pdfkit" : "~0.7.1"
+    }
+}
