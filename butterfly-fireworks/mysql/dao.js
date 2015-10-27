@@ -4,13 +4,15 @@ var fs = require('fs');
 module.exports = {
 	getFornitori: function(){
 		return findAllFornitori();
-	}
+	},
+    getAvailableItemsInStore: function(){
+        return findAvailableItemsInStore();
+    }
 }
 
 var connectionProps = JSON.parse(fs.readFileSync('./resources/mysql.json','utf8'));
 
-var pool      =    mysql.createPool({
-  connectionLimit : 100, 
+var connection = mysql.createConnection({
   host     : connectionProps.host,
   user     : connectionProps.user,
   password : connectionProps.password,
@@ -18,33 +20,24 @@ var pool      =    mysql.createPool({
 });
 
 function findAllFornitori(){
-	executeQuery('SELECT * from Fornitore');
+	return executeQuery('SELECT * from Fornitore;');
+}
+
+function findAvailableItemsInStore(){
+    return executeQuery('SELECT * , count(idBomba) as totale FROM bf_schema.Store where dataScarico is null group by idBomba;');
 }
 
 
 function executeQuery(query) {
-   pool.getConnection(function(err,connection){
-	        if (err) {
-	          connection.release();
-	          //res.json({"code" : 100, "status" : "Error in connection database"});
-	          console.log(err);
-	          return;
-	        }  
 
-		    console.log('connected as id ' + connection.threadId);
-		    connection.query(query, function(err, rows, fields) {
-			connection.release();
-			 
-			 if (!err)
-			    console.log('The solution is: ', rows);
-			 else
-			    console.log('Error while performing Query.');
-			});
-	   
-	        connection.on('error', function(err) {      
-	           //   res.json({"code" : 100, "status" : "Error in connection database"});
-	              console.log(err);
-	              return;    
-	        });
-	    });
+    connection.query(query, function(err, rows, fields) {
+     if (!err)
+        console.log('The solution is: ', rows);
+     else
+        console.log('Error while performing Query.');
+
+    return rows;
+    });
+
+
 }
