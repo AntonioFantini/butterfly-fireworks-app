@@ -2,11 +2,11 @@ var mysql = require('mysql');
 var fs = require('fs');
 
 module.exports = {
-	getFornitori: function(){
-		return findAllFornitori();
+	getFornitori: function(callback){
+		 executeQuery('SELECT * from Fornitore;', callback);
 	},
     getAvailableItemsInStore: function(callback){
-        findAvailableItemsInStore(callback);
+         executeQuery('SELECT * , count(idBomba) as totale FROM bf_schema.Store where dataScarico is null group by idBomba;', callback);
     }
 }
 
@@ -18,14 +18,6 @@ var connection = mysql.createConnection({
   password : connectionProps.password,
   database : connectionProps.database
 });
-
-function findAllFornitori(){
-	return executeQuery('SELECT * from Fornitore;');
-}
-
-function findAvailableItemsInStore(callback){
-    executeQuery('SELECT * , count(idBomba) as totale FROM bf_schema.Store where dataScarico is null group by idBomba;', callback);
-}
 
 
 function executeQuery(query, callback) {
