@@ -12,6 +12,7 @@
 		"passport-strategy" : "~1.0.0",
 		"passport-local" : "~1.0.0",
 		"passport-strategy" : "~1.0.0",
-		"pdfkit" : "~0.7.1"
+		"pdfkit" : "~0.7.1",
+        "path" :"latest"
     }
 }

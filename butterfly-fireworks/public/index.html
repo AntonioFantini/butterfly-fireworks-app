@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+</head>
+<script type="text/javascript">
+$(document).ready(function(){
+       
+    $.ajax({
+      method: "GET",
+      url: "/dao/getFornitori",
+      success: function(data){
+          $( "#mydiv" ).append( JSON.stringify(data) );
+      },
+        error: function(err){
+            alert("error"+JSON-stringify(err));
+        }
+});
+});
+</script>  
+<body>
+    <div id="mydiv"></div>
+</body>
+    
+    </html>
