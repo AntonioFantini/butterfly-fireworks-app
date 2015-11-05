@@ -12,9 +12,17 @@ app.get("/dao/getFornitori",function(req,res){
 });
 
 app.get("/dao/getAvailableItemsInStore",function(req,res){
-	res.write(
-		'<h1>'+dao.getAvailableItemsInStore()+'</h1>'
-	);
+    var callback = function(err, result) {
+        //res.writeHead('200', {
+          //  'Content-Type' : 'x-application/json'
+        // });
+        res.write(
+		  '<h1>'+result+'</h1>'
+	       );
+        console.log('json:', result);
+        res.end(result);
+    };
+	dao.getAvailableItemsInStore(callback);
 });
 
 app.listen(3000);

@@ -5,8 +5,8 @@ module.exports = {
 	getFornitori: function(){
 		return findAllFornitori();
 	},
-    getAvailableItemsInStore: function(){
-        return findAvailableItemsInStore();
+    getAvailableItemsInStore: function(callback){
+        findAvailableItemsInStore(callback);
     }
 }
 
@@ -23,20 +23,24 @@ function findAllFornitori(){
 	return executeQuery('SELECT * from Fornitore;');
 }
 
-function findAvailableItemsInStore(){
-    return executeQuery('SELECT * , count(idBomba) as totale FROM bf_schema.Store where dataScarico is null group by idBomba;');
+function findAvailableItemsInStore(callback){
+    executeQuery('SELECT * , count(idBomba) as totale FROM bf_schema.Store where dataScarico is null group by idBomba;', callback);
 }
 
 
-function executeQuery(query) {
+function executeQuery(query, callback) {
 
     connection.query(query, function(err, rows, fields) {
-     if (!err)
+     if (!err){
         console.log('The solution is: ', rows);
-     else
+         callback(null, rows);
+     }else{
         console.log('Error while performing Query.');
+         callback(err,null);
+     }
+  
+        
 
-    return rows;
     });
 
 
